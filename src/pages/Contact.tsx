@@ -130,7 +130,7 @@ export default function Contact() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="grayscale hover:grayscale-0 transition-all duration-300"
-                title="KaiGaming Location"
+                title="Glued Supercharged Location"
               />
             </div>
           </div>
@@ -145,7 +145,7 @@ export default function Contact() {
           </h2>
           <div className={`flex flex-wrap justify-center gap-4 stagger-children ${actionsInView ? 'visible' : ''}`}>
             <MagneticButton
-              href={`${BUSINESS.whatsappUrl}?text=Hi! I'd like to book a PS5 station at KaiGaming.`}
+              href={`${BUSINESS.whatsappUrl}?text=${encodeURIComponent("Hi! I'd like to book a station at Glued Supercharged.")}`}
               className="btn-neo bg-kai-red text-kai-ink flex items-center gap-2"
             >
               <MessageCircle size={16} /> Book via WhatsApp

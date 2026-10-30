@@ -168,11 +168,11 @@ export default function Pricing() {
                 LAN TOURNAMENTS & BIRTHDAY PARTIES
               </h3>
               <p className="text-kai-muted text-sm leading-relaxed max-w-xl">
-                Planning a gaming night with 4–10 friends? Book all 3 PS5 stations together for custom LAN brackets, FIFA tournaments, and birthday gaming parties with snacks!
+                Planning a group outing or corporate event? Book custom gaming sessions, tournament brackets, birthday gaming parties, and bowling with delicious food!
               </p>
             </div>
             <a
-              href={`${BUSINESS.whatsappUrl}?text=Hi! I am interested in a Group / Party booking at Kai Gaming for my friends.`}
+              href={`${BUSINESS.whatsappUrl}?text=${encodeURIComponent('Hi! I am interested in a Group / Party booking at Glued Supercharged.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-neo bg-kai-red text-kai-ink font-bold text-sm px-6 py-3.5 shrink-0 flex items-center gap-2"

@@ -91,7 +91,7 @@ export default function Admin() {
       const response = await fetch(DISCORD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ embeds: [{ title: 'Test Booking', color: 0x3498DB, description: 'This is a test booking from the admin panel.', timestamp: new Date().toISOString(), footer: { text: 'KaiGaming Admin Test' } }] }),
+        body: JSON.stringify({ embeds: [{ title: 'Test Booking', color: 0x3498DB, description: 'This is a test booking from the admin panel.', timestamp: new Date().toISOString(), footer: { text: 'Glued Supercharged Admin Test' } }] }),
       });
       showToast(response.ok ? 'Test booking sent to Discord!' : 'Failed to send', response.ok ? 'success' : 'error');
     } catch { showToast('Network error', 'error'); }
@@ -110,7 +110,7 @@ export default function Admin() {
         { name: 'Station', value: stationName, inline: true },
         { name: 'Date', value: booking.date, inline: true },
         { name: 'Time', value: booking.timeSlot, inline: true },
-      ], timestamp: new Date().toISOString(), footer: { text: 'KaiGaming Admin' } }] }),
+      ], timestamp: new Date().toISOString(), footer: { text: 'Glued Supercharged Admin' } }] }),
     });
   };
 

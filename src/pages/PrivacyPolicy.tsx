@@ -1,3 +1,5 @@
+import { BUSINESS } from '../data/businessData';
+
 export default function PrivacyPolicy() {
   return (
     <div>
@@ -50,7 +52,7 @@ export default function PrivacyPolicy() {
             <div className="card-neo p-6 sm:p-8">
               <h2 className="text-xl font-black mb-4 text-kai-red">Data Storage</h2>
               <p className="text-kai-muted text-sm leading-relaxed">
-                Booking data is stored in Firebase Firestore, a cloud database service provided by Google. Your data is protected by Firebase security rules and is only accessible to authorized KaiGaming admin accounts. We do not sell, share, or transfer your personal information to third parties.
+                Booking data is stored in Firebase Firestore, a cloud database service provided by Google. Your data is protected by Firebase security rules and is only accessible to authorized Glued Supercharged admin accounts. We do not sell, share, or transfer your personal information to third parties.
               </p>
             </div>
 
@@ -58,7 +60,7 @@ export default function PrivacyPolicy() {
             <div className="card-neo p-6 sm:p-8">
               <h2 className="text-xl font-black mb-4 text-kai-red">Discord Notifications</h2>
               <p className="text-kai-muted text-sm leading-relaxed">
-                When you make a booking, a notification containing your booking details (name, phone, email, station, date, time) is sent to a private Discord channel used by our team for operational purposes. This notification is not publicly visible and is only accessible to authorized KaiGaming staff.
+                When you make a booking, a notification containing your booking details (name, phone, email, station, date, time) is sent to a private Discord channel used by our team for operational purposes. This notification is not publicly visible and is only accessible to authorized Glued Supercharged staff.
               </p>
             </div>
 
@@ -99,8 +101,8 @@ export default function PrivacyPolicy() {
               <h2 className="text-xl font-black mb-4 text-kai-red">Contact Us</h2>
               <p className="text-kai-muted text-sm leading-relaxed">
                 If you have any questions about this privacy policy, please contact us at{' '}
-                <a href="mailto:kaigaming2k25@gmail.com" className="text-kai-red font-bold hover:underline">kaigaming2k25@gmail.com</a>{' '}
-                or via WhatsApp at +91 9730093803.
+                <a href={`mailto:${BUSINESS.email}`} className="text-kai-red font-bold hover:underline">{BUSINESS.email}</a>{' '}
+                or via WhatsApp at {BUSINESS.phone}.
               </p>
             </div>
 
@@ -111,11 +113,11 @@ export default function PrivacyPolicy() {
                 All game titles, cover art, logos, and related imagery displayed on this website are the intellectual property of their respective owners and publishers (e.g., Sony Interactive Entertainment, Rockstar Games, EA Sports, Bandai Namco, 2K Games, etc.).
               </p>
               <p className="text-kai-muted text-sm leading-relaxed mb-4">
-                These images are used here solely for identification and informational purposes to indicate the games available at our gaming cafe. KaiGaming does not claim ownership of any game-related trademarks, copyrights, or intellectual property.
+                These images are used here solely for identification and informational purposes to indicate the entertainment experiences available at our venue. Glued Supercharged does not claim ownership of any game-related trademarks, copyrights, or intellectual property.
               </p>
               <p className="text-kai-muted text-sm leading-relaxed">
                 All game images used on this site were sourced from public search results and are used under fair use for informational purposes. If you are a rights holder and wish to have your image removed, please contact us at{' '}
-                <a href="mailto:kaigaming2k25@gmail.com" className="text-kai-red font-bold hover:underline">kaigaming2k25@gmail.com</a>{' '}
+                <a href={`mailto:${BUSINESS.email}`} className="text-kai-red font-bold hover:underline">{BUSINESS.email}</a>{' '}
                 and we will promptly remove the content.
               </p>
             </div>

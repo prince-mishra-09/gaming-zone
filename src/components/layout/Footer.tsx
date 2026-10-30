@@ -22,13 +22,13 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/assets/kaifavi.png" alt="KaiGaming" className="h-12 w-12 object-cover object-top" style={{ clipPath: 'inset(0 0 25% 0)', mixBlendMode: 'lighten' }} />
+              <img src="/assets/kaifavi.png" alt="Glued Supercharged" className="h-12 w-12 object-cover object-top" style={{ clipPath: 'inset(0 0 25% 0)', mixBlendMode: 'lighten' }} />
               <span className="text-xl font-black tracking-tight text-kai-text">
-                KAI <span className="text-kai-red">GAMING</span>
+                GLUED <span className="text-kai-red">SUPERCHARGED</span>
               </span>
             </div>
             <p className="text-kai-muted text-sm leading-relaxed">
-              Play Has No Limits. Premium PS5 gaming experience in {BUSINESS.city}, {BUSINESS.state}.
+              Play Has No Limits. Noida's ultimate gaming and entertainment arena at Sector 96.
             </p>
             <p className="text-kai-muted text-xs mt-3 leading-relaxed">
               <span className="text-kai-red font-bold">Open Daily</span> · {BUSINESS.hours}
@@ -96,7 +96,7 @@ export default function Footer() {
         <div className="mt-10 pt-6 border-t-3 border-kai-ink flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <p className="text-kai-muted text-xs">
-              © {new Date().getFullYear()} Kai Gaming. All rights reserved.
+              © {new Date().getFullYear()} Glued Supercharged. All rights reserved.
             </p>
             <Link to="/privacy" className="text-kai-muted text-xs hover:text-kai-red transition-colors">
               Privacy Policy

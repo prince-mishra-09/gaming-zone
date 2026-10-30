@@ -222,7 +222,7 @@ export default function Booking() {
                 </div>
                 <div className="flex justify-center gap-4 flex-wrap">
                   <a
-                    href={`${BUSINESS.whatsappUrl}?text=Hi! I'd like to book a PS5 at KaiGaming.%0AName: ${encodeURIComponent(formData.name)}%0AStation: ${selectedStationData?.name}%0AGame: ${encodeURIComponent(selectedGame)}%0ADate: ${selectedDate}%0ATime: ${encodeURIComponent(selectedSlot)}`}
+                    href={`${BUSINESS.whatsappUrl}?text=Hi! I'd like to book a station at Glued Supercharged.%0AName: ${encodeURIComponent(formData.name)}%0AStation: ${selectedStationData?.name}%0AGame: ${encodeURIComponent(selectedGame)}%0ADate: ${selectedDate}%0ATime: ${encodeURIComponent(selectedSlot)}`}
                     target="_blank" rel="noopener noreferrer"
                     className="btn-neo bg-kai-surface text-kai-text">
                     Confirm on WhatsApp

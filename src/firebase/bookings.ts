@@ -149,7 +149,7 @@ export async function createBooking(booking: BookingData): Promise<{ success: bo
         { name: 'Status', value: 'PENDING — Admin must confirm', inline: false },
       ],
       timestamp: new Date().toISOString(),
-      footer: { text: 'KaiGaming Booking System — Reply CONFIRM <booking_id> or CANCEL <booking_id>' },
+      footer: { text: 'Glued Supercharged Booking System — Reply CONFIRM <booking_id> or CANCEL <booking_id>' },
     };
 
     const sent = await sendDiscordEmbed(embed);

@@ -47,12 +47,12 @@ export default function Navbar() {
           <Link to="/" className="flex items-center gap-2 group" onClick={handleLogoClick}>
             <img
               src="/assets/kaifavi.png"
-              alt="Kai Gaming"
+              alt="Glued Supercharged"
               className="h-10 w-10 sm:h-12 sm:w-12 object-cover object-top group-hover:rotate-6 transition-transform duration-200"
               style={{ clipPath: 'inset(0 0 25% 0)', mixBlendMode: 'lighten' }}
             />
             <span className="text-lg sm:text-xl font-black tracking-tight text-kai-text">
-              KAI <span className="text-kai-red transition-all duration-200">GAMING</span>
+              GLUED <span className="text-kai-red transition-all duration-200">SUPERCHARGED</span>
             </span>
           </Link>
 

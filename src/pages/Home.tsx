@@ -191,7 +191,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-kai-surface/90 border border-white/10 mb-6 shadow-neo-sm">
             <span className="w-2 h-2 rounded-full bg-kai-red animate-ping" />
             <span className="text-xs sm:text-sm font-bold text-kai-text uppercase tracking-wider">
-              Ambernath's Premier PS5 Gaming Cafe
+              Noida's Premier Gaming & Entertainment Center
             </span>
           </div>
 
@@ -210,8 +210,8 @@ export default function Home() {
               heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
-            3 dedicated PlayStation 5 stations, 16+ top titles, and a custom cloud-lit gaming vibe.
-            Starting at only <span className="text-kai-red font-bold">₹55/hr</span>.
+            Console gaming lounges, 16+ top titles, bowling, arcade, and high-energy entertainment.
+            Limitless cards starting at only <span className="text-kai-red font-bold">₹799</span>.
           </p>
 
           <div
@@ -259,7 +259,7 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-center gap-2 text-kai-muted text-xs sm:text-sm font-bold uppercase tracking-wider">
               <ShieldCheck size={16} className="text-kai-red shrink-0" />
-              <span>Raj Regalia, Ambernath</span>
+              <span>E Square, Sector 96, Noida</span>
             </div>
           </div>
         </div>
@@ -353,31 +353,31 @@ export default function Home() {
             <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-kai-teal/10 rounded-full blur-3xl pointer-events-none" />
 
             <span className="inline-block bg-kai-red text-kai-ink text-xs font-black uppercase tracking-widest px-3 py-1 rounded-md mb-4 border border-kai-ink">
-              Morning Super Hours
+              Limitless Gaming Cards
             </span>
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight mb-4">
-              STARTING AT <span className="text-kai-red">₹55/HR</span>
+              STARTING AT <span className="text-kai-red">₹799</span>
             </h2>
             <p className="text-kai-muted text-base sm:text-lg mb-8 max-w-xl mx-auto leading-relaxed">
-              Every day from 10:00 AM to 2:00 PM. Access all 16+ titles on any PS5 station without breaking the bank.
+              Play arcade, console gaming, sports simulation, and enjoy delicious diner snacks across Noida's biggest entertainment center.
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-8 text-left">
               <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                <span className="text-[11px] text-kai-muted font-bold block">Super Hours</span>
-                <span className="text-lg font-black text-kai-red">₹55<span className="text-xs font-normal text-kai-muted">/hr</span></span>
+                <span className="text-[11px] text-kai-muted font-bold block">Unlimited Card</span>
+                <span className="text-lg font-black text-kai-red">₹799<span className="text-xs font-normal text-kai-muted"> (3 hrs)</span></span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                <span className="text-[11px] text-kai-muted font-bold block">Quick Play</span>
-                <span className="text-lg font-black text-kai-text">₹70<span className="text-xs font-normal text-kai-muted">/hr</span></span>
+                <span className="text-[11px] text-kai-muted font-bold block">Play More</span>
+                <span className="text-lg font-black text-kai-text">₹999<span className="text-xs font-normal text-kai-muted"> (4 hrs)</span></span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                <span className="text-[11px] text-kai-muted font-bold block">Story Mode</span>
-                <span className="text-lg font-black text-kai-text">₹90<span className="text-xs font-normal text-kai-muted">/hr</span></span>
+                <span className="text-[11px] text-kai-muted font-bold block">Play Max</span>
+                <span className="text-lg font-black text-kai-text">₹1,299<span className="text-xs font-normal text-kai-muted"> (Full Day)</span></span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/5">
-                <span className="text-[11px] text-kai-muted font-bold block">Open World</span>
-                <span className="text-lg font-black text-kai-text">₹100<span className="text-xs font-normal text-kai-muted">/hr</span></span>
+                <span className="text-[11px] text-kai-muted font-bold block">Supercharge VIP</span>
+                <span className="text-lg font-black text-kai-text">₹1,699<span className="text-xs font-normal text-kai-muted"> (All-Day)</span></span>
               </div>
             </div>
 
@@ -399,7 +399,7 @@ export default function Home() {
           <div className={`text-center mb-12 reveal ${reviewsInView ? 'visible' : ''}`}>
             <span className="text-xs font-black uppercase tracking-widest text-kai-red block mb-2">Player Feedback</span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
-              LOVED BY <span className="text-kai-red">AMBERNATH GAMERS</span>
+              LOVED BY <span className="text-kai-red">NOIDA GAMERS</span>
             </h2>
             <div className="inline-flex items-center gap-1 text-kai-red text-sm font-bold">
               {[...Array(5)].map((_, i) => (

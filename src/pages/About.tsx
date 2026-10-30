@@ -34,7 +34,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`max-w-3xl reveal ${heroInView ? 'visible' : ''}`}>
             <span className="text-xs font-black uppercase tracking-widest text-kai-red block mb-3">
-              About Kai Gaming Ambernath
+              About Glued Supercharged
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-[0.98]">
               WHERE GAMERS<br /><span className="text-kai-red">COME ALIVE</span>
@@ -59,7 +59,7 @@ export default function About() {
               OUR <span className="text-kai-red">LOUNGE & SETUPS</span>
             </h2>
             <p className="text-kai-muted text-xs sm:text-sm max-w-lg mx-auto">
-              Real photos from our gaming lounge in Ambernath East. Designed for maximum comfort and immersion.
+              Real photos from our gaming lounge in Noida Sector 96. Designed for maximum comfort and immersion.
             </p>
           </div>
 
@@ -147,7 +147,7 @@ export default function About() {
           <div className={`text-center mb-12 reveal ${offerInView ? 'visible' : ''}`}>
             <span className="text-xs font-black uppercase tracking-widest text-kai-red block mb-2">Amenities</span>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
-              WHY PLAY AT <span className="text-kai-red">KAI GAMING?</span>
+              WHY PLAY AT <span className="text-kai-red">GLUED SUPERCHARGED?</span>
             </h2>
             <p className="text-kai-muted text-sm max-w-xl mx-auto">
               Designed from the ground up to give you and your friends the best gaming session possible.
@@ -212,9 +212,9 @@ export default function About() {
       {/* ─── Gamer Etiquette Banner ─── */}
       <section className="py-12 bg-kai-deeper border-t border-white/5 text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h3 className="text-lg font-black text-kai-text uppercase tracking-wider mb-2">Gamer Etiquette at Kai Gaming</h3>
+          <h3 className="text-lg font-black text-kai-text uppercase tracking-wider mb-2">Gamer Etiquette at Glued Supercharged</h3>
           <p className="text-kai-muted text-xs sm:text-sm leading-relaxed">
-            1. Treat fellow gamers with respect · 2. Handle DualSense controllers with care · 3. Advance slots held for up to 10 minutes past start time.
+            1. Treat fellow gamers with respect · 2. Handle controllers and arcade machines with care · 3. Advance slots held for up to 10 minutes past start time.
           </p>
         </div>
       </section>

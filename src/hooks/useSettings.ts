@@ -4,17 +4,17 @@ import { db } from '../firebase/config';
 import { type SiteSettings } from '../firebase/settings';
 
 const DEFAULTS: SiteSettings = {
-  phone: '+91 9730093803',
-  whatsapp: '+91 9730093803',
-  instagram: '@_kai.gaming__',
-  email: 'kaigaming2k25@gmail.com',
-  address: 'Shop No. 23, Raj Regalia Phase 2, Palegaon Rd, near Sai Nilkanth, Pale Gaon, East, Ambernath, Maharashtra 421506',
-  workingHours: '10:00 AM – 11:00 PM (Daily)',
+  phone: '+91 9311661750',
+  whatsapp: '+91 9311661750',
+  instagram: '@gluedsupercharged',
+  email: 'supercharged.glued@gmail.com',
+  address: 'Unit No. 101, 1st Floor, E Square, Plot No. C2, Sector 96, Noida, Uttar Pradesh 201304',
+  workingHours: '11:00 AM – 11:00 PM (Daily)',
   pricing: {
-    superHours: '₹55',
-    quickPlay: '₹70',
-    storyMode: '₹90',
-    openWorld: '₹100',
+    superHours: '₹799',
+    quickPlay: '₹999',
+    storyMode: '₹1,299',
+    openWorld: '₹1,699',
   },
 };
 
