@@ -4,6 +4,7 @@ import { useInView } from '../hooks/useInView';
 import { useTilt } from '../hooks/useTilt';
 import { useCounter } from '../hooks/useCounter';
 import CircularGallery from '../components/ui/CircularGallery';
+import MobileHeroConveyor from '../components/ui/MobileHeroConveyor';
 import { BUSINESS, STATIONS, STATS, GAMES, CAFE_PHOTOS, REVIEWS, FAQS } from '../data/businessData';
 
 function StatCounter({ target, suffix, label }: { target: number; suffix: string; label: string }) {
@@ -169,8 +170,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-kai-dark via-kai-dark/95 to-kai-dark/70" />
         </div>
 
-        {/* Circular 3D WebGL Gallery behind text */}
-        <div className="absolute inset-0 gallery-scale" style={{ zIndex: 1 }}>
+        {/* Circular 3D WebGL Gallery behind text — Desktop & Tablet */}
+        <div className="hidden md:block absolute inset-0 gallery-scale" style={{ zIndex: 1 }}>
           <CircularGallery
             items={GAMES.map((g) => ({ image: g.img, text: g.name }))}
             bend={3}
@@ -182,6 +183,11 @@ export default function Home() {
           />
         </div>
 
+        {/* 4 Multi-Row Conveyor Belt Marquees — Mobile Phone Screen */}
+        <div className="block md:hidden absolute inset-0" style={{ zIndex: 1 }}>
+          <MobileHeroConveyor games={GAMES} />
+        </div>
+
         {/* Text content — centered, highly responsive */}
         <div
           className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 sm:pb-24 text-center"
@@ -189,8 +195,8 @@ export default function Home() {
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-kai-surface/90 border border-white/10 mb-6 shadow-neo-sm">
-            <span className="w-2 h-2 rounded-full bg-kai-red animate-ping" />
-            <span className="text-xs sm:text-sm font-bold text-kai-text uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-kai-red animate-ping shrink-0" />
+            <span className="text-[11px] sm:text-sm font-bold text-kai-text uppercase tracking-wider">
               Noida's Premier Gaming & Entertainment Center
             </span>
           </div>
@@ -215,19 +221,19 @@ export default function Home() {
           </p>
 
           <div
-            className={`flex flex-wrap gap-4 justify-center transition-all duration-700 delay-300 ${
+            className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-xs sm:max-w-none mx-auto transition-all duration-700 delay-300 ${
               heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
             <Link
               to="/booking"
-              className="btn-neo bg-kai-red text-kai-ink flex items-center justify-center gap-2 text-sm sm:text-base font-bold px-7 py-3.5"
+              className="btn-neo bg-kai-red text-kai-ink flex items-center justify-center gap-2 text-sm sm:text-base font-bold px-7 py-3.5 text-center"
             >
               <Gamepad2 size={20} /> Book a Station <ArrowRight size={16} />
             </Link>
             <Link
               to="/pricing"
-              className="btn-neo bg-kai-surface text-kai-text text-sm sm:text-base font-bold px-6 py-3.5 border border-white/10 hover:border-kai-red/50"
+              className="btn-neo bg-kai-surface text-kai-text text-sm sm:text-base font-bold px-6 py-3.5 border border-white/10 hover:border-kai-red/50 text-center"
             >
               View Pricing Tiers
             </Link>
