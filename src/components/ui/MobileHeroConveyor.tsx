@@ -14,15 +14,15 @@ interface MobileHeroConveyorProps {
 
 function ConveyorCard({ game }: { game: GameItem }) {
   return (
-    <div className="relative shrink-0 w-24 sm:w-28 aspect-[3/4] rounded-xl overflow-hidden border border-white/15 bg-black/40 shadow-neo-sm">
+    <div className="relative shrink-0 w-24 sm:w-28 aspect-[3/4] rounded-xl overflow-hidden border border-white/20 bg-black/30 shadow-neo-sm">
       <img
         src={game.img}
         alt={game.name}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover brightness-105 contrast-105"
         loading="eager"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent flex flex-col justify-end p-1.5">
-        <span className="text-[10px] font-bold text-white truncate drop-shadow-sm">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-1.5">
+        <span className="text-[10px] font-black text-white truncate drop-shadow">
           {game.name}
         </span>
       </div>
@@ -37,7 +37,7 @@ export default function MobileHeroConveyor({ games }: MobileHeroConveyorProps) {
   const row3 = games.slice(8, 12);
   const row4 = games.slice(12, 16);
 
-  // Repeat items 3 times so the marquee is plenty long for infinite seamless looping
+  // Repeat items 4 times so the marquee is plenty long for infinite seamless looping
   const buildRow = (items: readonly GameItem[]) => [...items, ...items, ...items, ...items];
 
   const rows = [
@@ -49,8 +49,8 @@ export default function MobileHeroConveyor({ games }: MobileHeroConveyorProps) {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
-      {/* 4 Conveyor Belt Rows */}
-      <div className="h-full w-full flex flex-col justify-between py-6 opacity-45">
+      {/* 4 Conveyor Belt Rows — Increased visibility & punch */}
+      <div className="h-full w-full flex flex-col justify-between py-6 opacity-75">
         {rows.map((row, idx) => (
           <div key={idx} className="overflow-hidden w-full py-1">
             <div
@@ -65,16 +65,16 @@ export default function MobileHeroConveyor({ games }: MobileHeroConveyorProps) {
         ))}
       </div>
 
-      {/* Dark vignette & readability overlays */}
+      {/* Balanced dark vignette & readability overlays */}
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(circle at center, rgba(42, 43, 48, 0.45) 0%, rgba(42, 43, 48, 0.92) 85%)',
+          background: 'radial-gradient(circle at center, rgba(42, 43, 48, 0.25) 0%, rgba(42, 43, 48, 0.85) 90%)',
         }}
       />
-      <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-kai-dark via-kai-dark/90 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-kai-dark via-kai-dark/95 to-transparent" />
-      <div className="absolute inset-0 bg-kai-dark/40 backdrop-blur-[1px]" />
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-kai-dark via-kai-dark/80 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-kai-dark via-kai-dark/85 to-transparent" />
+      <div className="absolute inset-0 bg-kai-dark/15 backdrop-blur-[0.5px]" />
     </div>
   );
 }
