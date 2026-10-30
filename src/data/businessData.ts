@@ -14,11 +14,11 @@
  */
 
 export const BUSINESS = {
-  name: 'KaiGaming',
+  name: 'Kai Gaming',
   tagline: 'Play Has No Limits',
   type: 'Premium PS5 Gaming Cafe',
   description:
-    'KaiGaming is a premium PS5 gaming cafe in the heart of Ambernath. We built this space for gamers, by gamers — a place where you can escape into your favourite worlds with top-tier setups and an atmosphere that hits different.',
+    'Kai Gaming is a premium PS5 gaming cafe in the heart of Ambernath. We built this space for gamers, by gamers — a place where you can escape into your favourite worlds with top-tier setups and an atmosphere that hits different.',
   address: 'Shop No. 23, Raj Regalia Phase 2, Palegaon Rd, near Sai Nilkanth, Pale Gaon, East, Ambernath, Maharashtra 421506',
   addressShort: 'Raj Regalia Phase 2, Ambernath East, Maharashtra',
   city: 'Ambernath',

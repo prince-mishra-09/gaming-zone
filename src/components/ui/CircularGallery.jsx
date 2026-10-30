@@ -598,15 +598,21 @@ export default function CircularGallery({
     let isMounted = true;
     resolveFont(font, fontUrl).then(resolvedFont => {
       if (!isMounted || !containerRef.current) return;
-      app = new App(containerRef.current, {
-        items,
-        bend,
-        textColor,
-        borderRadius,
-        font: resolvedFont,
-        scrollSpeed,
-        scrollEase
-      });
+      try {
+        app = new App(containerRef.current, {
+          items,
+          bend,
+          textColor,
+          borderRadius,
+          font: resolvedFont,
+          scrollSpeed,
+          scrollEase
+        });
+      } catch (err) {
+        console.warn('CircularGallery WebGL initialization skipped:', err);
+      }
+    }).catch(err => {
+      console.warn('CircularGallery font resolve skipped:', err);
     });
 
     return () => {

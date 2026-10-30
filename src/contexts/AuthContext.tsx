@@ -19,7 +19,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isAdmin: false,
-  loading: true,
+  loading: false,
   loginWithGoogle: async () => {},
   logout: async () => {},
 });
@@ -34,20 +34,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setIsAdmin(!!user && ALLOWED_ADMIN_EMAILS.includes(user.email ?? ''));
+    try {
+      const unsubscribe = onAuthStateChanged(
+        auth,
+        (user) => {
+          setUser(user);
+          setIsAdmin(!!user && ALLOWED_ADMIN_EMAILS.includes(user.email ?? ''));
+          setLoading(false);
+        },
+        (error) => {
+          // Graceful handling for demo mode when live Firebase project isn't configured
+          console.warn('Auth state notice (demo mode):', error.message);
+          setUser(null);
+          setIsAdmin(false);
+          setLoading(false);
+        }
+      );
+      return unsubscribe;
+    } catch (err) {
+      console.warn('Auth initialization notice (demo mode):', err);
       setLoading(false);
-    });
-    return unsubscribe;
+    }
   }, []);
 
   const loginWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      console.warn('Sign-in unavailable without Firebase credentials:', err);
+      alert('Google Sign-In requires active Firebase credentials. This demo is running in offline/demo mode.');
+    }
   };
 
   const logout = async () => {
-    await signOut(auth);
+    try {
+      await signOut(auth);
+    } catch {
+      setUser(null);
+      setIsAdmin(false);
+    }
   };
 
   return (
