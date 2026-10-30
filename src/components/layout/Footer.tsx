@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { Instagram } from '../ui/Instagram';
 import { useInView } from '../../hooks/useInView';
@@ -14,6 +14,13 @@ const quickLinks = [
 
 export default function Footer() {
   const [ref, inView] = useInView(0.1);
+  const location = useLocation();
+
+  const handleLinkClick = (to: string) => {
+    if (location.pathname === to) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <footer ref={ref} className="bg-kai-deeper border-t-3 border-kai-ink">
@@ -43,6 +50,7 @@ export default function Footer() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
+                    onClick={() => handleLinkClick(link.to)}
                     className="text-kai-muted hover:text-kai-text text-sm font-medium transition-colors inline-block py-1.5 min-h-[36px]"
                   >
                     {link.label}

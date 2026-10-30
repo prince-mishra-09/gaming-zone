@@ -33,9 +33,18 @@ export default function Navbar() {
       e.preventDefault();
       navigate('/admin');
     } else {
+      if (location.pathname === '/') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       timeoutRef.current = setTimeout(() => {
         clickCountRef.current = 0;
       }, 500);
+    }
+  };
+
+  const handleNavClick = (to: string) => {
+    if (location.pathname === to) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -62,6 +71,7 @@ export default function Navbar() {
               <Link
                 key={link.to}
                 to={link.to}
+                onClick={() => handleNavClick(link.to)}
                 className={`nav-link px-4 py-2 text-sm font-bold uppercase tracking-wide transition-colors ${
                   location.pathname === link.to
                     ? 'text-kai-red active'
@@ -99,7 +109,10 @@ export default function Navbar() {
             <Link
               key={link.to}
               to={link.to}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                handleNavClick(link.to);
+              }}
               className={`block px-4 py-3.5 text-sm font-bold uppercase tracking-wide rounded-xl border-2 border-kai-ink transition-all duration-200 min-h-[46px] flex items-center ${
                 location.pathname === link.to
                   ? 'bg-kai-red text-kai-ink font-black'
