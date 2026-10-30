@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Phone, MapPin, MessageCircle } from 'lucide-react';
 import { Instagram } from '../ui/Instagram';
-import { useSettings } from '../../hooks/useSettings';
 import { useInView } from '../../hooks/useInView';
+import { BUSINESS } from '../../data/businessData';
 
 const quickLinks = [
   { to: '/', label: 'Home' },
@@ -12,13 +12,7 @@ const quickLinks = [
   { to: '/contact', label: 'Contact' },
 ];
 
-function getPhoneDigits(phone: string): string {
-  return phone.replace(/[^0-9]/g, '');
-}
-
 export default function Footer() {
-  const s = useSettings();
-  const phoneDigits = getPhoneDigits(s.whatsapp);
   const [ref, inView] = useInView(0.1);
 
   return (
@@ -34,15 +28,16 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-kai-muted text-sm leading-relaxed">
-              Play Has No Limits. Premium PS5 gaming experience in Ambernath.
+              Play Has No Limits. Premium PS5 gaming experience in {BUSINESS.city}, {BUSINESS.state}.
+            </p>
+            <p className="text-kai-muted text-xs mt-3 leading-relaxed">
+              <span className="text-kai-red font-bold">Open Daily</span> · {BUSINESS.hours}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-widest text-kai-red mb-4">
-              Quick Links
-            </h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-kai-red mb-4">Quick Links</h3>
             <ul className="space-y-1">
               {quickLinks.map((link) => (
                 <li key={link.to}>
@@ -59,24 +54,22 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-widest text-kai-red mb-4">
-              Contact Us
-            </h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-kai-red mb-4">Contact Us</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm text-kai-muted">
                 <MapPin size={16} className="text-kai-red mt-0.5 shrink-0" />
-                <span>{s.address}</span>
+                <span>{BUSINESS.address}</span>
               </li>
               <li className="flex items-center gap-2 text-sm text-kai-muted">
                 <Phone size={16} className="text-kai-red shrink-0" />
-                <a href={`tel:${phoneDigits}`} className="hover:text-kai-text transition-colors">
-                  {s.phone}
+                <a href={`tel:${BUSINESS.phoneDigits}`} className="hover:text-kai-text transition-colors">
+                  {BUSINESS.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-sm text-kai-muted">
                 <MessageCircle size={16} className="text-kai-red shrink-0" />
                 <a
-                  href={`https://wa.me/${phoneDigits}`}
+                  href={BUSINESS.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-kai-text transition-colors"
@@ -87,12 +80,12 @@ export default function Footer() {
               <li className="flex items-center gap-2 text-sm text-kai-muted">
                 <Instagram size={16} className="text-kai-red shrink-0" />
                 <a
-                  href={`https://instagram.com/${s.instagram.replace('@', '')}`}
+                  href={BUSINESS.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-kai-text transition-colors"
                 >
-                  {s.instagram}
+                  {BUSINESS.instagram}
                 </a>
               </li>
             </ul>
@@ -111,18 +104,20 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href={`https://instagram.com/${s.instagram.replace('@', '')}`}
+              href={BUSINESS.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-kai-muted hover:text-kai-red transition-colors"
+              aria-label="Instagram"
             >
               <Instagram size={20} />
             </a>
             <a
-              href={`https://wa.me/${phoneDigits}`}
+              href={BUSINESS.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-kai-muted hover:text-kai-red transition-colors"
+              aria-label="WhatsApp"
             >
               <MessageCircle size={20} />
             </a>

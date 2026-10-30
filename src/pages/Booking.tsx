@@ -1,17 +1,11 @@
-import { useState, useEffect } from 'react';
-import { Calendar, Clock, User, AlertCircle, Gamepad2 } from 'lucide-react';
-import { createBooking, subscribeToStations, getBusySlots, isSlotBusy, TIME_SLOTS, type Station } from '../firebase/bookings';
-import { useSettings } from '../hooks/useSettings';
+import { useState } from 'react';
+import { Calendar, Clock, User, Gamepad2 } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
+import { BUSINESS, STATIONS, TIME_SLOTS, GAMES } from '../data/businessData';
 
 type Step = 'date' | 'slot' | 'game' | 'form' | 'confirm';
 
-const ALL_GAMES = [
-  'WWE 2K25', 'Spider-Man 2', 'God of War Ragnarok', 'FC25', 'Tekken 8',
-  'Mortal Kombat', 'GTA 5', 'Ghost of Tsushima', 'The Last of Us', 'Cricket 24',
-  'Asphalt Racing', 'A Way Out', 'It Takes Two', 'Uncharted 4', 'Watch Dogs',
-  'Horizon Forbidden West',
-];
+const ALL_GAMES = GAMES.map(g => g.name);
 
 export default function Booking() {
   const [step, setStep] = useState<Step>('date');
@@ -19,27 +13,12 @@ export default function Booking() {
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedStation, setSelectedStation] = useState('');
   const [selectedGame, setSelectedGame] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
-  const [stations, setStations] = useState<Station[]>([]);
   const [stepKey, setStepKey] = useState(0);
-  const [busySlots, setBusySlots] = useState<Map<string, string[]>>(new Map());
-  const [vibrateSlot, setVibrateSlot] = useState('');
 
-  const settings = useSettings();
   const [heroRef, heroInView] = useInView(0.1);
-  const [flowRef] = useInView(0.1);
 
-  useEffect(() => {
-    return subscribeToStations(setStations);
-  }, []);
-
-  // Fetch busy slots when date changes
-  useEffect(() => {
-    if (!selectedDate) return;
-    getBusySlots(selectedDate).then(setBusySlots);
-  }, [selectedDate]);
+  const steps: Step[] = ['date', 'slot', 'game', 'form', 'confirm'];
 
   const dates = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
@@ -56,33 +35,10 @@ export default function Booking() {
     setStep(s);
   };
 
-  const handleBooking = async () => {
-    if (!formData.name || !formData.phone) {
-      setError('Please fill in your name and phone number.');
-      return;
-    }
-    setLoading(true);
-    setError('');
-    try {
-      const result = await createBooking({
-        stationId: selectedStation,
-        date: selectedDate,
-        timeSlot: selectedSlot,
-        customerName: formData.name,
-        customerPhone: formData.phone,
-        customerEmail: formData.email,
-        game: selectedGame,
-      } as any);
-      if (result.success) {
-        goToStep('confirm');
-      } else {
-        setError(result.error || 'Failed to create booking. Please try again.');
-      }
-    } catch {
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+  const handleBooking = () => {
+    if (!formData.name || !formData.phone) return;
+    // DEMO MODE: purely client-side simulation, no Firestore write, no Discord notification
+    goToStep('confirm');
   };
 
   const resetBooking = () => {
@@ -92,25 +48,16 @@ export default function Booking() {
     setSelectedStation('');
     setSelectedGame('');
     setFormData({ name: '', phone: '', email: '' });
-    setError('');
     setStepKey(0);
   };
 
-  const handleBusyClick = (stationId: string, slot: string) => {
-    setVibrateSlot(`${stationId}-${slot}`);
-    if (navigator.vibrate) navigator.vibrate(200);
-    setTimeout(() => setVibrateSlot(''), 500);
-  };
-
-  const phoneDigits = settings.whatsapp.replace(/[^0-9]/g, '');
-  const steps: Step[] = ['date', 'slot', 'game', 'form', 'confirm'];
+  const selectedStationData = STATIONS.find(s => s.id === selectedStation);
 
   return (
     <div>
       {/* Hero */}
       <section ref={heroRef} className="py-20 bg-kai-dark">
         <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal ${heroInView ? 'visible' : ''}`}>
-
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-[0.95]">
             BOOK YOUR <span className="text-kai-red">STATION</span>
           </h1>
@@ -118,8 +65,16 @@ export default function Booking() {
         </div>
       </section>
 
+      {/* Demo Banner */}
+      <div className="bg-kai-surface border-b-3 border-kai-ink py-2 px-4 text-center">
+        <p className="text-kai-muted text-xs font-bold uppercase tracking-widest">
+          📋 Demo Booking Flow — Submissions are not recorded. To book for real,{' '}
+          <a href={BUSINESS.whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-kai-red hover:underline">contact us on WhatsApp</a>.
+        </p>
+      </div>
+
       {/* Booking Flow */}
-      <section ref={flowRef} className="py-12 bg-kai-deeper min-h-[60vh]">
+      <section className="py-12 bg-kai-deeper min-h-[60vh]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Progress */}
           <div className="flex items-center justify-center gap-1 sm:gap-2 mb-12">
@@ -135,6 +90,7 @@ export default function Booking() {
           </div>
 
           <div key={stepKey} className="step-slide-enter">
+
             {/* Step 1: Date */}
             {step === 'date' && (
               <div>
@@ -151,59 +107,46 @@ export default function Booking() {
               </div>
             )}
 
-            {/* Step 2: Time Slot — with busy detection */}
+            {/* Step 2: Time Slot */}
             {step === 'slot' && (
               <div>
                 <h2 className="text-2xl font-black mb-2 flex items-center gap-2"><Clock size={24} className="text-kai-red" /> Choose Time Slot</h2>
                 <p className="text-kai-muted mb-6">{new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
                 <div className="space-y-6">
-                  {stations.filter((s) => s.status === 'open').map((station) => (
+                  {STATIONS.map((station) => (
                     <div key={station.id} className="card-neo p-6">
-                      <h3 className="font-bold mb-4">{station.name}</h3>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-                        {TIME_SLOTS.map((slot) => {
-                          const busy = isSlotBusy(busySlots, station.id, slot);
-                          const vibrateKey = `${station.id}-${slot}`;
-                          const isVibrating = vibrateSlot === vibrateKey;
-                          return (
-                            <button key={slot} disabled={busy}
-                              onClick={() => busy ? handleBusyClick(station.id, slot) : (() => { setSelectedStation(station.id); setSelectedSlot(slot); goToStep('game'); })()}
-                              className={`px-3 py-2 text-xs font-bold border-3 border-kai-ink transition-all duration-100 ${
-                                busy
-                                  ? `bg-red-500/20 text-red-400 border-red-500/50 cursor-not-allowed ${isVibrating ? 'animate-[shake_0.3s_ease-in-out]' : ''}`
-                                  : 'bg-kai-dark text-kai-text hover:bg-kai-red hover:text-kai-ink hover:translate-x-[1px] hover:translate-y-[1px]'
-                              }`}>
-                              {busy ? 'BOOKED' : slot}
-                            </button>
-                          );
-                        })}
+                      <div className="flex items-center gap-3 mb-4">
+                        <img src={station.img} alt={station.name}
+                          className="w-12 h-12 object-cover border-2 border-kai-ink"
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = station.fallbackImg; }} />
+                        <h3 className="font-bold">{station.name}</h3>
+                        <span className="text-xs font-bold uppercase px-2 py-1 border-2 text-green-400 bg-green-500/20 border-green-500 ml-auto">OPEN</span>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                        {TIME_SLOTS.map((slot) => (
+                          <button key={slot}
+                            onClick={() => { setSelectedStation(station.id); setSelectedSlot(slot); goToStep('game'); }}
+                            className="px-3 py-2 text-xs font-bold border-3 border-kai-ink bg-kai-dark text-kai-text hover:bg-kai-red hover:text-kai-ink hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-100">
+                            {slot}
+                          </button>
+                        ))}
                       </div>
                     </div>
                   ))}
-                  {stations.filter((s) => s.status === 'open').length === 0 && (
-                    <div className="card-neo p-8 text-center">
-                      <AlertCircle size={48} className="text-kai-red mx-auto mb-4" />
-                      <p className="text-kai-muted">No stations available right now.</p>
-                    </div>
-                  )}
                 </div>
                 <button onClick={() => goToStep('date')} className="btn-neo bg-kai-surface text-kai-text mt-6">← Back</button>
               </div>
             )}
 
-            {/* Step 3: Game Selection */}
+            {/* Step 3: Game */}
             {step === 'game' && (
               <div>
                 <h2 className="text-2xl font-black mb-6 flex items-center gap-2"><Gamepad2 size={24} className="text-kai-red" /> Select a Game</h2>
-                <p className="text-kai-muted mb-6">
-                  {stations.find((s) => s.id === selectedStation)?.name} — {selectedSlot}
-                </p>
+                <p className="text-kai-muted mb-6">{selectedStationData?.name} — {selectedSlot}</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                   {ALL_GAMES.map((game) => (
                     <button key={game} onClick={() => { setSelectedGame(game); goToStep('form'); }}
-                      className={`card-neo p-4 text-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-sm hover:scale-105 active:scale-95 transition-all duration-150 ${
-                        selectedGame === game ? 'border-kai-red bg-kai-red/10' : ''
-                      }`}>
+                      className={`card-neo p-4 text-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-sm hover:scale-105 active:scale-95 transition-all duration-150 ${selectedGame === game ? 'border-kai-red bg-kai-red/10' : ''}`}>
                       <span className="text-sm font-bold">{game}</span>
                     </button>
                   ))}
@@ -212,21 +155,16 @@ export default function Booking() {
               </div>
             )}
 
-            {/* Step 4: Customer Form */}
+            {/* Step 4: Form */}
             {step === 'form' && (
               <div>
                 <h2 className="text-2xl font-black mb-6 flex items-center gap-2"><User size={24} className="text-kai-red" /> Your Details</h2>
                 <div className="card-neo p-6 mb-6">
                   <div className="text-sm text-kai-muted mb-2">Booking Summary</div>
-                  <div className="font-bold">{stations.find((s) => s.id === selectedStation)?.name} — {selectedSlot}</div>
+                  <div className="font-bold">{selectedStationData?.name} — {selectedSlot}</div>
                   <div className="text-sm text-kai-muted">{new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</div>
                   <div className="text-sm text-kai-red font-bold mt-1">Game: {selectedGame}</div>
                 </div>
-                {error && (
-                  <div className="card-neo p-4 mb-6 border-kai-red bg-kai-red/10 flex items-center gap-2">
-                    <AlertCircle size={16} className="text-kai-red" /><span className="text-sm text-kai-red">{error}</span>
-                  </div>
-                )}
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-bold mb-2">Name *</label>
@@ -243,8 +181,10 @@ export default function Booking() {
                 </div>
                 <div className="flex flex-wrap gap-4 mt-8">
                   <button onClick={() => goToStep('game')} className="btn-neo bg-kai-surface text-kai-text">← Back</button>
-                  <button onClick={handleBooking} disabled={loading || !formData.name || !formData.phone} className="btn-neo bg-kai-red text-kai-ink flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                    {loading ? 'Sending...' : 'Confirm Booking'}
+                  <button onClick={handleBooking}
+                    disabled={!formData.name || !formData.phone}
+                    className="btn-neo bg-kai-red text-kai-ink flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Preview Booking
                   </button>
                 </div>
               </div>
@@ -267,12 +207,12 @@ export default function Booking() {
                       } as React.CSSProperties} />
                   ))}
                 </div>
-                <h2 className="text-3xl font-black mb-4">BOOKING SENT!</h2>
-                <p className="text-kai-muted mb-2">Thanks, {formData.name}! Your booking request has been sent.</p>
-                <p className="text-kai-muted text-sm mb-6">We'll confirm your slot shortly on WhatsApp.</p>
+                <h2 className="text-3xl font-black mb-4">BOOKING PREVIEW!</h2>
+                <p className="text-kai-muted mb-2">Thanks, {formData.name}! Here's your booking summary.</p>
+                <p className="text-kai-muted text-sm mb-6">Tap "Confirm on WhatsApp" below to send this reservation request directly to us.</p>
                 <div className="card-neo p-6 max-w-md mx-auto mb-8">
                   <div className="text-sm text-kai-muted mb-1">Station</div>
-                  <div className="font-bold mb-3">{stations.find((s) => s.id === selectedStation)?.name}</div>
+                  <div className="font-bold mb-3">{selectedStationData?.name}</div>
                   <div className="text-sm text-kai-muted mb-1">Game</div>
                   <div className="font-bold mb-3 text-kai-red">{selectedGame}</div>
                   <div className="text-sm text-kai-muted mb-1">Date</div>
@@ -280,8 +220,13 @@ export default function Booking() {
                   <div className="text-sm text-kai-muted mb-1">Time</div>
                   <div className="font-bold">{selectedSlot}</div>
                 </div>
-                <div className="flex justify-center gap-4">
-                  <a href={`https://wa.me/${phoneDigits}?text=Hi, I just booked a PS5 at KaiGaming on ${selectedDate} at ${selectedSlot} for ${selectedGame}. My name is ${formData.name}.`} target="_blank" rel="noopener noreferrer" className="btn-neo bg-kai-surface text-kai-text">Confirm on WhatsApp</a>
+                <div className="flex justify-center gap-4 flex-wrap">
+                  <a
+                    href={`${BUSINESS.whatsappUrl}?text=Hi! I'd like to book a PS5 at KaiGaming.%0AName: ${encodeURIComponent(formData.name)}%0AStation: ${selectedStationData?.name}%0AGame: ${encodeURIComponent(selectedGame)}%0ADate: ${selectedDate}%0ATime: ${encodeURIComponent(selectedSlot)}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="btn-neo bg-kai-surface text-kai-text">
+                    Confirm on WhatsApp
+                  </a>
                   <button onClick={resetBooking} className="btn-neo bg-kai-red text-kai-ink">Book Another</button>
                 </div>
               </div>

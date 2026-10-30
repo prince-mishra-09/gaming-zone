@@ -1,25 +1,14 @@
 import { Gamepad2, Users, Coffee, Wifi } from 'lucide-react';
 import { useInView } from '../hooks/useInView';
 import { useState, useRef } from 'react';
+import { BUSINESS, GAMES, CAFE_PHOTOS, FEATURES } from '../data/businessData';
 
-const games = [
-  { name: 'WWE 2K25', img: '/assets/games/wwe-2k25.png' },
-  { name: 'Spider-Man 2', img: '/assets/games/spider-man-2.png' },
-  { name: 'God of War Ragnarok', img: '/assets/games/god-of-war-ragnarok.png' },
-  { name: 'FC25', img: '/assets/games/fc25.png' },
-  { name: 'Tekken 8', img: '/assets/games/tekken-8.png' },
-  { name: 'Mortal Kombat', img: '/assets/games/mortal-kombat.png' },
-  { name: 'GTA 5', img: '/assets/games/gta-5.png' },
-  { name: 'Ghost of Tsushima', img: '/assets/games/ghost-of-tsushima.png' },
-  { name: 'The Last of Us', img: '/assets/games/the-last-of-us.png' },
-  { name: 'Cricket 24', img: '/assets/games/cricket-24.png' },
-  { name: 'Asphalt Racing', img: '/assets/games/asphalt-racing.png' },
-  { name: 'A Way Out', img: '/assets/games/a-way-out.png' },
-  { name: 'It Takes Two', img: '/assets/games/it-takes-two.png' },
-  { name: 'Uncharted 4', img: '/assets/games/uncharted.png' },
-  { name: 'Watch Dogs', img: '/assets/games/watch-dogs.png' },
-  { name: 'Horizon Forbidden West', img: '/assets/games/horizon-forbidden-west.png' },
-];
+const ICON_MAP: Record<string, React.ElementType> = {
+  Gamepad2,
+  Coffee,
+  Users,
+  Wifi,
+};
 
 export default function About() {
   const [heroRef, heroInView] = useInView(0.1);
@@ -33,29 +22,32 @@ export default function About() {
       <section ref={heroRef} className="py-20 bg-kai-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`max-w-3xl reveal ${heroInView ? 'visible' : ''}`}>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-[0.95]">
               WHERE GAMERS<br /><span className="text-kai-red">COME ALIVE</span>
             </h1>
             <p className="text-kai-muted text-lg leading-relaxed">
-              KaiGaming is a premium PS5 gaming cafe in the heart of Ambernath. We built this space for gamers, by gamers — a place where you can escape into your favorite worlds with top-tier setups and an atmosphere that hits different.
+              {BUSINESS.description}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Photo Grid — 3 photos only */}
+      {/* Café Photo Grid — real cafe interior photos */}
       <section ref={photoRef} className="py-12 bg-kai-deeper">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-children ${photoInView ? 'visible' : ''}`}>
-            {[
-              { img: '/assets/games/spider-man-2.png', label: 'Spider-Man 2' },
-              { img: '/assets/games/fc25.png', label: 'FC 25' },
-              { img: '/assets/games/ghost-of-tsushima.png', label: 'Ghost of Tsushima' },
-            ].map((photo, i) => (
+          <div className={`grid grid-cols-2 sm:grid-cols-4 gap-4 stagger-children ${photoInView ? 'visible' : ''}`}>
+            {CAFE_PHOTOS.map((photo, i) => (
               <div key={i} className="card-neo overflow-hidden aspect-video group cursor-pointer">
-                <img src={photo.img} alt={photo.label}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 img-shadow" />
+                <img
+                  src={photo.img}
+                  alt={photo.label}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 img-shadow"
+                  onError={(e) => {
+                    // Graceful fallback if real photo not loaded
+                    const el = e.currentTarget as HTMLImageElement;
+                    el.src = `/assets/games/${['wwe-2k25', 'fc25', 'ghost-of-tsushima', 'tekken-8'][i]}.png`;
+                  }}
+                />
               </div>
             ))}
           </div>
@@ -69,32 +61,30 @@ export default function About() {
             WHAT WE <span className="text-kai-red">OFFER</span>
           </h2>
           <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children ${offerInView ? 'visible' : ''}`}>
-            {[
-              { icon: Gamepad2, title: 'PS5 Gaming', desc: '3 premium PlayStation 5 setups with DualSense controllers and top titles.' },
-              { icon: Coffee, title: 'Snacks & Drinks', desc: 'Fuel your gaming sessions with our range of snacks and beverages.' },
-              { icon: Users, title: 'Group Bookings', desc: 'Book multiple stations for parties, events, or gaming nights with friends.' },
-              { icon: Wifi, title: 'Perfect Vibe', desc: 'LED mood lighting, cloud ceiling, and a setup designed for immersion.' },
-            ].map((item, i) => (
-              <div key={i} className="card-neo p-6 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-sm transition-all duration-100 group">
-                <div className="w-12 h-12 bg-kai-red flex items-center justify-center border-3 border-kai-ink shadow-neo-sm mb-4 group-hover:rotate-6 transition-transform duration-200">
-                  <item.icon size={24} className="text-kai-ink" />
+            {FEATURES.map((item, i) => {
+              const Icon = ICON_MAP[item.icon] ?? Gamepad2;
+              return (
+                <div key={i} className="card-neo p-6 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-sm transition-all duration-100 group">
+                  <div className="w-12 h-12 bg-kai-red flex items-center justify-center border-3 border-kai-ink shadow-neo-sm mb-4 group-hover:rotate-6 transition-transform duration-200">
+                    <Icon size={24} className="text-kai-ink" />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                  <p className="text-kai-muted text-sm leading-relaxed">{item.desc}</p>
                 </div>
-                <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                <p className="text-kai-muted text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Games Available — horizontal image rows with cursor-follow tooltip */}
+      {/* Games Available */}
       <section ref={gamesRef} className="py-20 bg-kai-deeper">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className={`text-3xl sm:text-4xl font-black tracking-tight mb-12 text-center reveal ${gamesInView ? 'visible' : ''}`}>
             GAMES <span className="text-kai-red">AVAILABLE</span>
           </h2>
           <div className={`grid grid-cols-2 sm:grid-cols-4 gap-2 stagger-children ${gamesInView ? 'visible' : ''}`}>
-            {games.map((game, i) => (
+            {GAMES.map((game, i) => (
               <GameCard key={i} game={game} />
             ))}
           </div>
@@ -104,7 +94,7 @@ export default function About() {
   );
 }
 
-function GameCard({ game }: { game: { name: string; img: string } }) {
+function GameCard({ game }: { game: { name: string; img: string; category: string; multiplayer: boolean } }) {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -132,6 +122,7 @@ function GameCard({ game }: { game: { name: string; img: string } }) {
           style={{ left: pos.x + 16, top: pos.y + 16 }}
         >
           {game.name}
+          {game.multiplayer && <span className="ml-2 text-xs opacity-75">👥 Multiplayer</span>}
         </div>
       )}
     </div>
