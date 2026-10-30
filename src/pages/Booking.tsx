@@ -118,7 +118,7 @@ export default function Booking() {
                       <div className="flex items-center gap-3 mb-4">
                         <img src={station.img} alt={station.name}
                           className="w-12 h-12 object-cover border-2 border-kai-ink"
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = station.fallbackImg; }} />
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = station.gameImg; }} />
                         <h3 className="font-bold">{station.name}</h3>
                         <span className="text-xs font-bold uppercase px-2 py-1 border-2 text-green-400 bg-green-500/20 border-green-500 ml-auto">OPEN</span>
                       </div>

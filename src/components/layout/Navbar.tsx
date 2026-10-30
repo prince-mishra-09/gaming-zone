@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Menu, X, MessageCircle } from 'lucide-react';
+import { BUSINESS } from '../../data/businessData';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -16,6 +17,12 @@ export default function Navbar() {
   const navigate = useNavigate();
   const clickCountRef = useRef(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     clickCountRef.current += 1;
@@ -33,23 +40,23 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-kai-deeper border-b-3 border-kai-ink">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-kai-deeper/95 backdrop-blur-md border-b-3 border-kai-ink">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo — 6B: Hover Animation */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group" onClick={handleLogoClick}>
             <img
               src="/assets/kaifavi.png"
-              alt="KaiGaming"
-              className="h-12 w-12 object-cover object-top group-hover:rotate-6 transition-transform duration-200"
+              alt="Kai Gaming"
+              className="h-10 w-10 sm:h-12 sm:w-12 object-cover object-top group-hover:rotate-6 transition-transform duration-200"
               style={{ clipPath: 'inset(0 0 25% 0)', mixBlendMode: 'lighten' }}
             />
-            <span className="text-xl font-black tracking-tight text-kai-text">
-              KAI<span className="text-kai-red group-hover:text-shadow-lg transition-all duration-200">GAMING</span>
+            <span className="text-lg sm:text-xl font-black tracking-tight text-kai-text">
+              KAI <span className="text-kai-red transition-all duration-200">GAMING</span>
             </span>
           </Link>
 
-          {/* Desktop Nav — 6A: Underline Animation */}
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
@@ -64,40 +71,56 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href={BUSINESS.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-3 btn-neo bg-kai-surface text-kai-text text-xs py-2 px-4 border border-white/10 hover:border-kai-red/50 flex items-center gap-1.5"
+            >
+              <MessageCircle size={14} className="text-green-400" /> WhatsApp
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-kai-muted hover:text-kai-text"
+            className="md:hidden p-2 text-kai-muted hover:text-kai-text focus:outline-none"
+            aria-label="Toggle navigation menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu — 6C: Slide Animation */}
+      {/* Mobile Drawer Menu */}
       {isOpen && (
-        <div className="md:hidden bg-kai-deeper border-t-3 border-kai-ink">
-          <div className="px-4 py-3 space-y-1">
-            {navLinks.map((link, i) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setIsOpen(false)}
-                className={`block px-4 py-4 text-sm font-bold uppercase tracking-wide border-3 border-kai-ink transition-all duration-200 min-h-[44px] ${
-                  location.pathname === link.to
-                    ? 'bg-kai-red text-kai-ink'
-                    : 'bg-kai-surface text-kai-text hover:bg-kai-dark'
-                }`}
-                style={{
-                  animation: `step-slide-in 0.3s ease-out ${i * 60}ms both`,
-                }}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+        <div ref={menuRef} className="md:hidden bg-kai-deeper border-t-3 border-kai-ink px-4 py-4 space-y-2">
+          {navLinks.map((link, i) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              onClick={() => setIsOpen(false)}
+              className={`block px-4 py-3.5 text-sm font-bold uppercase tracking-wide rounded-xl border-2 border-kai-ink transition-all duration-200 min-h-[46px] flex items-center ${
+                location.pathname === link.to
+                  ? 'bg-kai-red text-kai-ink font-black'
+                  : 'bg-kai-surface text-kai-text hover:bg-kai-dark'
+              }`}
+              style={{
+                animation: `step-slide-in 0.25s ease-out ${i * 45}ms both`,
+              }}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <a
+            href={BUSINESS.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setIsOpen(false)}
+            className="block px-4 py-3.5 text-sm font-bold uppercase tracking-wide rounded-xl border-2 border-green-500/40 bg-green-500/10 text-green-400 text-center flex items-center justify-center gap-2"
+          >
+            <MessageCircle size={16} /> Chat on WhatsApp
+          </a>
         </div>
       )}
     </nav>
